@@ -9,13 +9,17 @@ import {
   ConciergeBell,
   Flame,
   IndianRupee,
+  LockKeyhole,
   MapPin,
+  MessageCircle,
   MessageSquareText,
   PackageCheck,
   RotateCcw,
+  Send,
   ShieldCheck,
   Sparkles,
   Utensils,
+  Workflow,
 } from "lucide-react";
 import "./styles.css";
 
@@ -93,6 +97,34 @@ const rituals = [
   },
 ];
 
+const chatMessages = [
+  {
+    role: "user",
+    text: "Set up healthy weekday lunches under Rs. 300 near office.",
+  },
+  {
+    role: "agent",
+    text: "I can prepare a high-protein lunch every weekday at 1:15 PM and ask before ordering.",
+  },
+  {
+    role: "agent",
+    text: "Today I found a paneer protein bowl for Rs. 286. Confirm, show options, or skip?",
+  },
+];
+
+const safetyRules = [
+  "No checkout without explicit approval",
+  "Budget, timing, and location are locked per ritual",
+  "Every tool call is visible in the trace",
+];
+
+const architecture = [
+  { label: "Intent", value: "Natural language request" },
+  { label: "Planner", value: "Extract budget, diet, schedule" },
+  { label: "MCP", value: "Search, rank, stage cart" },
+  { label: "Approval", value: "User confirms final spend" },
+];
+
 function App() {
   const [step, setStep] = useState("brief");
   const [prompt, setPrompt] = useState(
@@ -161,17 +193,19 @@ function App() {
 
           <div className="hero-copy">
             <p className="eyebrow">Permission-first commerce agent</p>
-            <h1>Turn daily food decisions into one-tap rituals.</h1>
+            <h1>Swiggy, as a chat-first daily agent.</h1>
             <p>
-              A focused Swiggy MCP demo that converts a vague lunch goal into a
-              ready-to-confirm weekday order.
+              Rituals runs inside chat surfaces and prepares repeat Swiggy
+              actions for approval, starting with weekday lunch.
             </p>
           </div>
 
+          <ChatSurface />
+
           <div className="signal-list">
-            <Signal icon={Utensils} label="Food MCP" value="Menu search, cart, order" />
+            <Signal icon={MessageCircle} label="Primary form factor" value="AI agent or copilot" />
+            <Signal icon={Utensils} label="First MCP path" value="Food search, cart, approval" />
             <Signal icon={ShieldCheck} label="Safe by design" value="Always asks before spend" />
-            <Signal icon={CalendarCheck} label="Repeatable" value="Saved as a weekday ritual" />
           </div>
         </aside>
 
@@ -402,7 +436,65 @@ function RitualState({
           })}
         </div>
       </section>
+
+      <section className="architecture-panel" aria-label="Architecture overview">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">Architecture</p>
+            <h3>Intent to approval</h3>
+          </div>
+          <span className="status-pill">
+            <Workflow size={15} />
+            MCP-ready
+          </span>
+        </div>
+        <div className="architecture-grid">
+          {architecture.map((item) => (
+            <div className="architecture-step" key={item.label}>
+              <span>{item.label}</span>
+              <strong>{item.value}</strong>
+            </div>
+          ))}
+        </div>
+        <div className="safety-list">
+          {safetyRules.map((rule) => (
+            <div className="safety-rule" key={rule}>
+              <LockKeyhole size={15} />
+              <span>{rule}</span>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
+  );
+}
+
+function ChatSurface() {
+  return (
+    <section className="chat-surface" aria-label="Chat agent example">
+      <div className="chat-topline">
+        <span>
+          <MessageCircle size={15} />
+          Agent surface
+        </span>
+        <strong>Works in Swiggy, WhatsApp, Slack, or MCP clients</strong>
+      </div>
+      <div className="chat-messages">
+        {chatMessages.map((message, index) => (
+          <div className={`chat-bubble ${message.role}`} key={`${message.role}-${index}`}>
+            {message.text}
+          </div>
+        ))}
+      </div>
+      <div className="chat-actions">
+        <button type="button">Confirm</button>
+        <button type="button">Show options</button>
+        <button type="button">Skip</button>
+        <span>
+          <Send size={14} />
+        </span>
+      </div>
+    </section>
   );
 }
 
