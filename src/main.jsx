@@ -316,60 +316,62 @@ function RitualState({
         ))}
       </div>
 
-      <section className="trace-panel" aria-label="MCP action trace">
-        <div>
-          <p className="eyebrow">MCP trace</p>
-          <h3>Food tools used</h3>
-        </div>
-        <div className="trace-list">
-          {visibleTrace.map((item) => (
-            <div className="trace-row" key={item.tool}>
-              <code>{item.tool}</code>
-              <span>{item.result}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="recommendations" aria-label="Meal recommendations">
-        <div className="section-heading">
+      <div className="decision-grid">
+        <section className="trace-panel" aria-label="MCP action trace">
           <div>
-            <p className="eyebrow">Best matches</p>
-            <h3>Today's shortlist</h3>
+            <p className="eyebrow">MCP trace</p>
+            <h3>Food tools used</h3>
           </div>
-          <span className="status-pill">
-            <Sparkles size={15} />
-            Optimized
-          </span>
-        </div>
+          <div className="trace-list">
+            {visibleTrace.map((item) => (
+              <div className="trace-row" key={item.tool}>
+                <code>{item.tool}</code>
+                <span>{item.result}</span>
+              </div>
+            ))}
+          </div>
+        </section>
 
-        <div className="meal-list">
-          {meals.map((meal) => (
-            <button
-              className={`meal-row ${meal.id === selectedId ? "is-selected" : ""}`}
-              key={meal.id}
-              type="button"
-              onClick={() => setSelectedId(meal.id)}
-            >
-              <span className="score">{meal.score}</span>
-              <span className="meal-main">
-                <strong>{meal.name}</strong>
-                <small>{meal.restaurant}</small>
-              </span>
-              <span className="meal-meta">
-                <small>
-                  <IndianRupee size={13} />
-                  {meal.price}
-                </small>
-                <small>
-                  <Clock3 size={13} />
-                  {meal.eta}
-                </small>
-              </span>
-            </button>
-          ))}
-        </div>
-      </section>
+        <section className="recommendations" aria-label="Meal recommendations">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">Best matches</p>
+              <h3>Today's shortlist</h3>
+            </div>
+            <span className="status-pill">
+              <Sparkles size={15} />
+              Optimized
+            </span>
+          </div>
+
+          <div className="meal-list">
+            {meals.map((meal) => (
+              <button
+                className={`meal-row ${meal.id === selectedId ? "is-selected" : ""}`}
+                key={meal.id}
+                type="button"
+                onClick={() => setSelectedId(meal.id)}
+              >
+                <span className="score">{meal.score}</span>
+                <span className="meal-main">
+                  <strong>{meal.name}</strong>
+                  <small>{meal.restaurant}</small>
+                </span>
+                <span className="meal-meta">
+                  <small>
+                    <IndianRupee size={13} />
+                    {meal.price}
+                  </small>
+                  <small>
+                    <Clock3 size={13} />
+                    {meal.eta}
+                  </small>
+                </span>
+              </button>
+            ))}
+          </div>
+        </section>
+      </div>
 
       <section className="confirmation-panel" aria-label="Order confirmation">
         <div>
